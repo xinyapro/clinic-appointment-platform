@@ -3,12 +3,19 @@ package sg.com.xinyapro.clinic.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import sg.com.xinyapro.clinic.service.HelloService;
 
 @RestController
 public class HelloController {
 
+    private final HelloService helloService;
+
+    public HelloController(HelloService helloService) {
+        this.helloService = helloService;
+    }
+
     @GetMapping("/hello")
     public String hello() {
-        return "Hello Clinic";
+        return helloService.hello();
     }
 }
