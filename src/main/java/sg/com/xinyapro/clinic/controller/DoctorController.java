@@ -1,9 +1,12 @@
 package sg.com.xinyapro.clinic.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sg.com.xinyapro.clinic.entity.Doctor;
+import sg.com.xinyapro.clinic.dto.CreateDoctorRequest;
+import sg.com.xinyapro.clinic.dto.DoctorResponse;
+import sg.com.xinyapro.clinic.dto.UpdateDoctorRequest;
 import sg.com.xinyapro.clinic.service.DoctorService;
 
 import java.util.List;
@@ -19,28 +22,29 @@ public class DoctorController {
     }
 
     @GetMapping
-    public List<Doctor> getAllDoctors() {
+    public List<DoctorResponse> getAllDoctors() {
         return doctorService.getAllDoctors();
     }
 
     @GetMapping("/{id}")
-    public Doctor getDoctorById(@PathVariable Integer id) {
+    public DoctorResponse getDoctorById(@PathVariable Integer id) {
         return doctorService.getDoctorById(id);
     }
 
     @PostMapping
-    public ResponseEntity<Doctor> createDoctor(@RequestBody Doctor doctor) {
-        Doctor createdDoctor = doctorService.createDoctor(doctor);
+    public ResponseEntity<DoctorResponse> createDoctor(
+            @Valid @RequestBody CreateDoctorRequest request) {
+        DoctorResponse createdDoctor = doctorService.createDoctor(request);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(createdDoctor);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Doctor> updateDoctor(
+    public ResponseEntity<DoctorResponse> updateDoctor(
             @PathVariable Integer id,
-            @RequestBody Doctor doctor) {
-        Doctor updatedDoctor = doctorService.updateDoctor(id, doctor);
+            @Valid @RequestBody UpdateDoctorRequest request) {
+        DoctorResponse updatedDoctor = doctorService.updateDoctor(id, request);
         return ResponseEntity.ok(updatedDoctor);
     }
 

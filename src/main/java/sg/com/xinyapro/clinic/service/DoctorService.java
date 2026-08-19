@@ -1,6 +1,9 @@
 package sg.com.xinyapro.clinic.service;
 
 import org.springframework.stereotype.Service;
+import sg.com.xinyapro.clinic.dto.CreateDoctorRequest;
+import sg.com.xinyapro.clinic.dto.DoctorResponse;
+import sg.com.xinyapro.clinic.dto.UpdateDoctorRequest;
 import sg.com.xinyapro.clinic.entity.Doctor;
 import sg.com.xinyapro.clinic.exception.DoctorNotFoundException;
 
@@ -9,46 +12,43 @@ import java.util.List;
 @Service
 public class DoctorService {
 
-    public List<Doctor> getAllDoctors(){
+    public List<DoctorResponse> getAllDoctors(){
 
         return List.of(
-                new Doctor("Tom", "Cardiology"),
-                new Doctor("Alice", "Dermatology"),
-                new Doctor("David", "Orthopedics")
+                new DoctorResponse("Tom", "Cardiology"),
+                new DoctorResponse("Alice", "Dermatology"),
+                new DoctorResponse("David", "Orthopedics")
         );
     }
 
-        /**
-         * 这里List.of(...)是Java9 引入的方法，
-         * 作用：快速创建一个不可修改的List
-
-        return List.of(
-                "Tom",
-                "Alice",
-                "David"
-        );*/
-
-   public  Doctor getDoctorById(Integer id){
+   public  DoctorResponse getDoctorById(Integer id){
 
        if (id == 1) {
-           return new Doctor("Tom", "Cardiology");
+           return new DoctorResponse("Tom", "Cardiology");
        }
        if (id == 2) {
-           return new Doctor("Alice", "Dermatology");
+           return new DoctorResponse("Alice", "Dermatology");
        }
        if (id == 3) {
-           return new Doctor("David", "Orthopedics");
+           return new DoctorResponse("David", "Orthopedics");
        }
        throw new DoctorNotFoundException(id);
    }
 
-    public Doctor createDoctor(Doctor doctor) {
-        return doctor;
+    public DoctorResponse createDoctor(CreateDoctorRequest request) {
+       Doctor doctor = new Doctor(
+               request.name(),
+               request.department()
+       );
+       return new DoctorResponse(
+               doctor.getName(),
+               doctor.getDepartment()
+       );
     }
 
-    public Doctor updateDoctor(Integer id, Doctor doctor) {
+    public DoctorResponse updateDoctor(Integer id, UpdateDoctorRequest request) {
         getDoctorById(id);
-        return doctor;
+        return new DoctorResponse(request.name(), request.department());
     }
 
     public void deleteDoctor(Integer id) {

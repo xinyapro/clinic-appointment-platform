@@ -4,14 +4,14 @@ public class Doctor {
 
     private String name;
 
-    private String dep;
+    private String department;
 
     public Doctor() {
     }
 
     public Doctor(String name, String department) {
         this.name = name;
-        this.dep = department;
+        this.department = department;
     }
 
     public String getName() {
@@ -22,11 +22,11 @@ public class Doctor {
         this.name = name;
     }
 
-    public String getDept() {
-        return dep;
+    public String getDepartment() {
+        return department;
     }
 
     public void setDepartment(String department) {
-        this.dep = department;
+        this.department = department;
     }
 }
